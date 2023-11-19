@@ -42,24 +42,47 @@ public class ReverseList {
 
     //     return previous;
     // }
+//    public ListNode ReverseList (ListNode head) {
+//        if (head == null) {
+//            return null;
+//        } else if (head.next == null) {
+//            return head;
+//        }
+//        ListNode dummyNode = new ListNode(-1);
+//        dummyNode.next = head;
+//
+//        ListNode pre = dummyNode;
+//        ListNode curr = head;
+//        ListNode next = head.next;
+//        while (next!=null){
+//            curr.next=next.next;
+//            next.next=pre.next;
+//            pre.next= next;
+//            next = curr.next;
+//        }
+//        return dummyNode.next;
+//    }
     public ListNode ReverseList (ListNode head) {
         if (head == null) {
             return null;
-        } else if (head.next == null) {
-            return head;
         }
-        ListNode dummyNode = new ListNode(-1);
+        ListNode dummyNode = new ListNode(0);
         dummyNode.next = head;
 
-        ListNode pre = dummyNode;
-        ListNode curr = head;
-        ListNode next = head.next;
-        while (next!=null){
-            curr.next=next.next;
-            next.next=pre.next;
-            pre.next= next;
-            next = curr.next;
-        }
-        return dummyNode.next;
+        return reverse(head);
+
     }
+
+//    reverse 都是从后向前，先记住最深层的节点（next），从右向左从上到下
+    public ListNode reverse(ListNode node){
+        ListNode curr = node, prev = null, next = null;
+        while (curr!=null){
+            next = curr.next;
+            curr.next = prev;
+            prev=curr;
+            curr=next;
+        }
+        return prev;
+    }
+
 }
