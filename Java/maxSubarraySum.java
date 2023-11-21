@@ -2,6 +2,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class maxSubarraySum {
+    public static void main(String[] args) {
+        Integer[] a = {-2, 3, -4, -11, -2, 10, -5, -3};
+        ArrayList<Integer> arr = new ArrayList<>(Arrays.asList(a));
+        System.out.println(findMaxIntervalImproved(arr));
+        System.out.println(findMaxInterval(arr));
+    }
+
+    //    Time n^2 Space 1
         public static int findMaxInterval(ArrayList<Integer> arr){
             int maxSum = arr.get(0);
             int currentSum = maxSum;
@@ -21,6 +29,7 @@ public class maxSubarraySum {
             return maxSum;
         }
 
+//      Time n space 1
         public static int findMaxIntervalImproved(ArrayList<Integer> arrayList){
             int maxSum = arrayList.get(0);
             int currentSum = maxSum;
@@ -43,11 +52,70 @@ public class maxSubarraySum {
             return maxSum;
         }
 
-        public static void main(String[] args) {
-            Integer[] a = {-2, 3, -4, -11, -2, 10, -5, -3};
-            ArrayList<Integer> arr = new ArrayList<>(Arrays.asList(a));
-            System.out.println(findMaxIntervalImproved(arr));
-            System.out.println(findMaxInterval(arr));
+//        Time n space n  using DP
+
+        public static int FindGreatestSumOfSubArray(int[] array){
+            int maxSum = Integer.MIN_VALUE;
+            int[] dp = new int[array.length];
+            dp[0] = array[0];
+            for (int i = 1; i < array.length; i++) {
+                dp[i] = Math.max(dp[i-1]+array[i], array[i]);
+            }
+//            读取dp可优化到上一训话，这里保留dp的理念
+            for (int currentMax :
+                    dp) {
+                if (currentMax>maxSum)maxSum=currentMax;
+            }
+            return maxSum;
         }
 
+
+
+//输入一个长度为n的整型数组array，数组中的一个或连续多个整数组成一个子数组，找到一个具有最大和的连续子数组。
+//1.子数组是连续的，比如[1,3,5,7,9]的子数组有[1,3]，[3,5,7]等等，但是[1,3,7]不是子数组
+//2.如果存在多个最大和的连续子数组，那么返回其中长度最长的，该题数据保证这个最长的只存在一个
+//3.该题定义的子数组的最小长度为1，不存在为空的子数组，即不存在[]是某个数组的子数组
+//4.返回的数组不计入空间复杂度计算
+
+//    public int[] FindGreatestSumOfSubArray2 (int[] array) {
+//        int startIndex = 0;
+//        int endIndex = 0;
+//        int length = 1;
+//        int globalStartIndex = 0;
+//        int globalLength = 0;
+//        int globalEndIndex = 0;
+//
+//        int globalMax = Integer.MIN_VALUE;
+//        int currentMax = array[0];
+//        for (int i = 0; i < array.length; i++) {
+//            if (array[i]>array[i]+currentMax){
+//                startIndex = i;
+//                length = 1;
+//            }else {
+//                currentMax = array[i]+currentMax;
+//                length+=1;
+//            }
+//
+//            if (globalMax<currentMax){
+//                globalMax = currentMax;
+//                globalStartIndex = startIndex;
+//            }
+//        }
+//        return new int[2];
+//    }
+
+//    public static int[] FindGreatestSumOfSubArray(int[] array){
+//        int maxSum = Integer.MIN_VALUE;
+//        int[] dp = new int[array.length];
+//        dp[0] = array[0];
+//        for (int i = 1; i < array.length; i++) {
+//            dp[i] = Math.max(dp[i-1]+array[i], array[i]);
+//        }
+////            读取dp可优化到上一训话，这里保留dp的理念
+//        for (int currentMax :
+//                dp) {
+//            if (currentMax>maxSum)maxSum=currentMax;
+//        }
+//        return maxSum;
+//    }
 }
