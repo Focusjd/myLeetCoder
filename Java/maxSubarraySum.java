@@ -76,46 +76,43 @@ public class maxSubarraySum {
 //2.如果存在多个最大和的连续子数组，那么返回其中长度最长的，该题数据保证这个最长的只存在一个
 //3.该题定义的子数组的最小长度为1，不存在为空的子数组，即不存在[]是某个数组的子数组
 //4.返回的数组不计入空间复杂度计算
+//    Medium Time: n Space: n
+    public int[] FindGreatestSumArrayOfSubArray (int[] array) {
+        if (array.length == 1) return array;
+        int currentMax = array[0];
+        int globalMax = Integer.MIN_VALUE;
+        int currentStart = 0, currentEnd = 0;
+        int globalStart = 0, globalEnd = 0;
+        
+        for (int i = 1; i < array.length; i++) {
+            if (currentMax+array[i] >= array[i]){
+                currentEnd = i;
+                currentMax = currentMax + array[i];
+            }else {
+                currentStart = i;
+                currentEnd = i;
+                currentMax = array[i];
+            }
+            
+            if (currentMax>globalMax){
+                globalMax = currentMax;
+                globalEnd = currentEnd;
+                globalStart = currentStart;
+            } else if (currentMax == globalMax) {
+                if (currentEnd-currentStart>globalEnd-globalStart){
+                    globalEnd = currentEnd;
+                    globalStart = currentStart;
+                }
+            }
+        }
+        int[] res = new int[globalEnd-globalStart+1];
+        for (int i = 0; i < res.length; i++) {
+            res[i] = array[globalStart];
+            globalStart++;
+        }
+        return res;
+    }
 
-//    public int[] FindGreatestSumOfSubArray2 (int[] array) {
-//        int startIndex = 0;
-//        int endIndex = 0;
-//        int length = 1;
-//        int globalStartIndex = 0;
-//        int globalLength = 0;
-//        int globalEndIndex = 0;
-//
-//        int globalMax = Integer.MIN_VALUE;
-//        int currentMax = array[0];
-//        for (int i = 0; i < array.length; i++) {
-//            if (array[i]>array[i]+currentMax){
-//                startIndex = i;
-//                length = 1;
-//            }else {
-//                currentMax = array[i]+currentMax;
-//                length+=1;
-//            }
-//
-//            if (globalMax<currentMax){
-//                globalMax = currentMax;
-//                globalStartIndex = startIndex;
-//            }
-//        }
-//        return new int[2];
-//    }
 
-//    public static int[] FindGreatestSumOfSubArray(int[] array){
-//        int maxSum = Integer.MIN_VALUE;
-//        int[] dp = new int[array.length];
-//        dp[0] = array[0];
-//        for (int i = 1; i < array.length; i++) {
-//            dp[i] = Math.max(dp[i-1]+array[i], array[i]);
-//        }
-////            读取dp可优化到上一训话，这里保留dp的理念
-//        for (int currentMax :
-//                dp) {
-//            if (currentMax>maxSum)maxSum=currentMax;
-//        }
-//        return maxSum;
-//    }
+
 }
