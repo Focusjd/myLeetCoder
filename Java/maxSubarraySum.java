@@ -76,7 +76,7 @@ public class maxSubarraySum {
 //2.如果存在多个最大和的连续子数组，那么返回其中长度最长的，该题数据保证这个最长的只存在一个
 //3.该题定义的子数组的最小长度为1，不存在为空的子数组，即不存在[]是某个数组的子数组
 //4.返回的数组不计入空间复杂度计算
-//    Medium Time: n Space: n
+//    Medium Time: n Space: 1
     public int[] FindGreatestSumArrayOfSubArray (int[] array) {
         if (array.length == 1) return array;
         int currentMax = array[0];
