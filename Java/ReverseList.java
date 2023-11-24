@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Stack;
 
 class ListNode {
   int val;
@@ -84,5 +86,51 @@ public class ReverseList {
         }
         return prev;
     }
+
+//输入一个链表的头节点，按链表从尾到头的顺序返回每个节点的值（用数组返回）。
+//    EASY Time: 2n Space: n
+//    public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+//        ArrayList<Integer> res = new ArrayList<>();
+//        if (listNode == null) {
+//            return res;
+//        }
+//        ListNode dummyNode = new ListNode(0);
+//        dummyNode.next = listNode;
+//        ListNode prev = null;
+//        ListNode curr = dummyNode;
+//        ListNode next = null;
+//
+//        while (curr!=null){
+//            next = curr.next;
+//            curr.next = prev;
+//            prev = curr;
+//            curr = next;
+//        }
+//
+//        while (prev!=dummyNode){
+//            res.add(prev.val);
+//            prev = prev.next;
+//        }
+//        return res;
+//    }
+//Time n Space n
+//    using stack
+    public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+        ArrayList<Integer> res = new ArrayList<>();
+        if (listNode == null) {
+            return res;
+        }
+        Stack<Integer> stack = new Stack<>();
+        while (listNode!=null){
+            stack.push(listNode.val);
+            listNode = listNode.next;
+        }
+        while (stack.empty()){
+            res.add(stack.pop());
+        }
+
+        return res;
+    }
+
 
 }
