@@ -48,7 +48,7 @@ public class FirstCommonListNode {
         //由于它们是同时出发的，所以到相遇的时候经过的时间是一样的，又因为速度也是一样的，所以最后相遇的时候经过的总路程是一样的，而由于是两个表交错着走，所以最后路程一样的位置就是两个链表的两个链表的公共节点
         //如果没有公共节点，随后head1和head2都会走到null,此时head1==head2，会退出循环，返回null
         while(head1!=head2){
-            if(head1==null){
+            if(head1==null){ //判断条件不是 pHead1.next是需要考虑他们永远也不会相遇的情况
                 head1=pHead2;
             }else{
                 head1=head1.next;
