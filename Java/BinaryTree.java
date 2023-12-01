@@ -1,3 +1,4 @@
+import javax.xml.transform.stax.StAXResult;
 import java.util.*;
 
 class TreeNode {
@@ -11,7 +12,24 @@ class TreeNode {
 
 
 public class BinaryTree {
-//    输入一棵二叉树，求该树的深度。从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径，最长路径的长度为树的深度，根节点的深度视为 1 。
+//    给你二叉树的根节点 root ，返回它节点值的 前序 遍历。
+    public int[] preorderTraversal (TreeNode root) {
+        ArrayList<Integer> res = new ArrayList<>();
+        preorderTraversalHelper(root, res);
+        return res.stream().mapToInt(i -> i).toArray();
+    }
+    public void preorderTraversalHelper(TreeNode node, ArrayList<Integer> res){
+        if (node == null) {
+            return;
+        }
+        res.add(node.val);
+        preorderTraversalHelper(node.left, res);
+        preorderTraversalHelper(node.right, res);
+    }
+
+
+    //    输入一棵二叉树，求该树的深度。从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径，
+//    最长路径的长度为树的深度，根节点的深度视为 1 。
 //Easy Time: n Space: n
     public int TreeDepth(TreeNode root) {
         if (root == null) {
@@ -117,32 +135,111 @@ public class BinaryTree {
         PrintHelper(node.right, res, depth);
 
     }
+// queue Time n Space n
+//    public ArrayList<ArrayList<Integer>> Print (TreeNode pRoot) {
+//        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+//        if (pRoot == null) {
+//            return res;
+//        }
+//
+//        LinkedList<TreeNode> queue = new LinkedList<>();
+//        queue.add(pRoot);
+//        int depth = 0;
+//        while (!queue.isEmpty()){
+//            ArrayList<Integer> level = new ArrayList<>();
+//            int levelSize = queue.size();
+//            for (int i = 0; i < levelSize; i++) {
+//                TreeNode current = queue.poll();
+//                level.add(current.val);
+//                if (current.left!=null) queue.offer(current.left);
+//                if (current.right!=null) queue.offer(current.right);
+//            }
+//            if (depth % 2 ==1) Collections.reverse(level);
+//            depth++;
+//            res.add(level);
+//        }
+//        return res;
+//    }
 
+//    double stack Time n Space n
     public ArrayList<ArrayList<Integer>> Print (TreeNode pRoot) {
         ArrayList<ArrayList<Integer>> res = new ArrayList<>();
         if (pRoot == null) {
             return res;
         }
+        Stack<TreeNode> stack1 = new Stack<>();
+        Stack<TreeNode> stack2 = new Stack<>();
 
-        LinkedList<TreeNode> queue = new LinkedList<>();
-        queue.add(pRoot);
+        stack1.push(pRoot);
         int depth = 0;
-        while (!queue.isEmpty()){
+        while (!stack1.empty() || !stack2.empty()){
             ArrayList<Integer> level = new ArrayList<>();
-            int levelSize = queue.size();
-            for (int i = 0; i < levelSize; i++) {
-                TreeNode current = queue.poll();
-                level.add(current.val);
-                if (current.left!=null) queue.offer(current.left);
-                if (current.right!=null) queue.offer(current.right);
+
+            if (depth %2 ==0){
+                int levelSize = stack1.size();
+                for (int i = 0; i < levelSize; i++) {
+                    TreeNode current = stack1.pop();
+                    level.add(current.val);
+                    if (current.left!=null) stack2.push(current.left);
+                    if (current.right!=null) stack2.push(current.right);
+                }
+            }else {
+                int levelSize = stack2.size();
+                for (int i = 0; i < levelSize; i++) {
+                    TreeNode current = stack2.pop();
+                    level.add(current.val);
+                    if (current.right!=null) stack1.push(current.right);
+                    if (current.left!=null) stack1.push(current.left);
+                }
             }
-            if (depth % 2 ==1) Collections.reverse(level);
-            depth++;
             res.add(level);
+            depth++;
         }
         return res;
     }
+//给定一个二叉树root和一个值 sum ，判断是否有从根节点到叶子节点的节点值之和等于 sum 的路径。
+//1.该题路径定义为从树的根结点开始往下一直到叶子结点所经过的结点
+//2.叶子节点是指没有子节点的节点
+//3.路径只能从父节点到子节点，不能从子节点到父节点
+//4.总节点数目为n
+    public boolean hasPathSum (TreeNode root, int sum) {
+        if (root == null)
+            return false;
+        if (root.left == null && root.right == null && sum - root.val ==0)
+            return true;
+        return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
+    }
 
 
+//    已知两颗二叉树，将它们合并成一颗二叉树。
+//    合并规则是：都存在的结点，就将结点值加起来，否则空的位置就由另一个树的结点来代替。
+    public TreeNode mergeTrees (TreeNode t1, TreeNode t2) {
+        if (t1 == null) return t2;
+        if (t2 == null) return t1;
+
+        TreeNode node = new TreeNode(t1.val + t2.val);
+
+        node.left = mergeTrees(t1.left, t2.left);
+        node.right = mergeTrees(t1.right, t2.right);
+        return node;
+    }
+
+
+//    给定一棵二叉树，判断其是否是自身的镜像（即：是否对称）
+    public boolean isSymmetrical (TreeNode pRoot) {
+        if (pRoot == null) {
+            return true;
+        }
+        return isSymmetricalHelper(pRoot.left, pRoot.right);
+    }
+    public boolean isSymmetricalHelper(TreeNode left, TreeNode right){
+        if (left == null && right == null) {
+            return true;
+        }
+        if (left == null || right == null || left.val != right.val)
+            return false;
+
+        return isSymmetricalHelper(left.right, right.left) && isSymmetricalHelper(left.left, right.right);
+    }
 
 }
