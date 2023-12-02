@@ -347,14 +347,67 @@ public class BinaryTree {
     }
 
 //    输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。如下图所示
-//    public TreeNode head = null;
-//    public TreeNode tail = null;
-//    public TreeNode Convert(TreeNode pRootOfTree) {
+    TreeNode prev = null;
+    TreeNode head = null;
+    public TreeNode Convert(TreeNode pRootOfTree) {
+        if (pRootOfTree == null) {
+            return null;
+        }
+
+        TreeNode left = Convert(pRootOfTree.left);
+        if (prev == null){
+            prev = pRootOfTree;
+            head = pRootOfTree;
+        }else {
+            prev.right = pRootOfTree;
+            pRootOfTree.left = prev;
+            prev = pRootOfTree;
+        }
+        TreeNode right = Convert(pRootOfTree.right);
+
+        return head;
+    }
+
+//给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。
+    public int lowestCommonAncestor (TreeNode root, int p, int q) {
+        if (root == null)
+            return -1;
+        if (root.val == p || root.val == q)
+            return root.val;
+
+        int left = lowestCommonAncestor(root.left, p, q);
+        int right = lowestCommonAncestor(root.right, p ,q);
+
+        if (left != -1 && right != -1)
+            return root.val;
+
+        return left != -1 ? left : right; //核心，如何让结果传递上去
+    }
+
 //
-//        TreeNode left = Convert(pRootOfTree.left);
-//
-//        TreeNode right = Convert(pRootOfTree.right);
-//
-//    }
+//    您提出的疑问是关于当p和q为父节点和子节点关系时，我的解法是否仍然有效。实际上，这个解法是可以处理p和q为父子关系的情况的。
+//    解释如下：
+//    当p和q中的一个是另一个的祖先时，算法会在找到第一个节点（假设为p）的时候返回这个节点。这是因为递归搜索首先会遍历到p，并且由于q在p的子树中，所以对p的子树的搜索会返回q。
+//    在这种情况下，一旦我们找到p，我们实际上已经找到了最低公共祖先，因为另一个节点q是p的后代。
+//    算法在遍历到p时会返回p到其父调用，而由于q是p的后代，所以p的子树中会找到q，而p的另一侧子树将返回null。
+//    最终，p作为第一个找到的节点将被返回作为最低公共祖先。
+    public TreeNode lowestCommonAncestorTreeNode (TreeNode root, int p, int q) {
+        if (root == null) {
+            return null;
+        }
+
+        if (root.val == p || root.val ==q)
+            return root;
+
+        TreeNode left = lowestCommonAncestorTreeNode(root.left, p, q);
+        TreeNode right = lowestCommonAncestorTreeNode(root.right, p, q);
+
+        if (left != null && right != null)
+            return root;
+
+        return left != null ? left : right; // 核心： 如何返回结果
+    }
+
+
 
 }
