@@ -1,4 +1,7 @@
+import com.sun.source.tree.Tree;
+
 import javax.xml.transform.stax.StAXResult;
+import java.security.cert.CertPath;
 import java.util.*;
 
 class TreeNode {
@@ -25,6 +28,27 @@ public class BinaryTree {
         res.add(node.val);
         preorderTraversalHelper(node.left, res);
         preorderTraversalHelper(node.right, res);
+    }
+//    中序遍历
+    public int[] inorderTraversal (TreeNode root) {
+        if (root == null) {
+            return new int[0];
+        }
+        ArrayList<Integer> list = new ArrayList<>();
+        inorderTraversalHelper(root, list);
+        return list.stream().mapToInt(Integer::intValue).toArray();
+
+    }
+
+
+    public void inorderTraversalHelper(TreeNode node, ArrayList<Integer> res){
+        if (node == null) {
+            return;
+        }
+
+        inorderTraversalHelper(node.left, res);
+        res.add(node.val);
+        inorderTraversalHelper(node.right, res);
     }
 
 
@@ -203,7 +227,7 @@ public class BinaryTree {
 //3.路径只能从父节点到子节点，不能从子节点到父节点
 //4.总节点数目为n
     public boolean hasPathSum (TreeNode root, int sum) {
-        if (root == null)
+        if (root == null) //终止条件需要学习
             return false;
         if (root.left == null && root.right == null && sum - root.val ==0)
             return true;
@@ -219,8 +243,12 @@ public class BinaryTree {
 
         TreeNode node = new TreeNode(t1.val + t2.val);
 
-        node.left = mergeTrees(t1.left, t2.left);
-        node.right = mergeTrees(t1.right, t2.right);
+
+        TreeNode left = mergeTrees(t1.left, t2.left);
+        TreeNode right = mergeTrees(t1.right, t2.right);
+
+        node.left = left;
+        node.right = right;
         return node;
     }
 
@@ -234,12 +262,99 @@ public class BinaryTree {
     }
     public boolean isSymmetricalHelper(TreeNode left, TreeNode right){
         if (left == null && right == null) {
-            return true;
+            return true; //终止条件需要学习
         }
         if (left == null || right == null || left.val != right.val)
             return false;
 
         return isSymmetricalHelper(left.right, right.left) && isSymmetricalHelper(left.left, right.right);
     }
+
+//    操作给定的二叉树，将其变换为源二叉树的镜像。
+    public TreeNode Mirror (TreeNode pRoot) {
+        if (pRoot == null) {
+            return null;
+        }
+
+        TreeNode left = Mirror(pRoot.left);
+        TreeNode right = Mirror(pRoot.right);
+
+        pRoot.left = right;
+        pRoot.right = left;
+        return pRoot;
+    }
+
+
+
+//    判断是否是二叉搜索树
+    public boolean isValidBST (TreeNode root) {
+        return isValidBSTHelper(root, Integer.MAX_VALUE, Integer.MIN_VALUE);
+    }
+
+    public boolean isValidBSTHelper(TreeNode node, int upper, int lower){
+        if (node == null)
+            return true;
+
+        if (node.val>upper || node.val<lower)
+            return false;
+
+        boolean leftRes = isValidBSTHelper(node.left, node.val, lower);
+        boolean rightRes = isValidBSTHelper(node.right, upper, node.val);
+        return leftRes && rightRes;
+    }
+
+//    判断是否是平衡二叉树
+    public boolean IsBalanced_Solution (TreeNode pRoot) {
+        if (pRoot == null) {
+            return true;
+        }
+        return isBalancedHelper(pRoot) != -1;
+    }
+    public int isBalancedHelper(TreeNode node){
+        if (node == null) {
+            return 0;
+        }
+        int leftDepth = isBalancedHelper(node.left);
+
+        int rightDepth = isBalancedHelper(node.right);
+
+        if (Math.abs(leftDepth-rightDepth)>1 || leftDepth==-1 || rightDepth==-1)
+            return -1;
+
+        return Math.max(leftDepth, rightDepth) + 1;
+    }
+
+
+//    判断是否是完全二叉树
+//    Medium Time n Space n
+    public boolean isCompleteTree (TreeNode root) {
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        boolean flag = false;
+        while (!queue.isEmpty()){
+            TreeNode curr = queue.poll();
+            if (curr == null) {
+                flag = true;
+                continue;
+            }
+            if (flag)
+                return false;
+
+            queue.offer(curr.left);
+            queue.offer(curr.right);
+        }
+        return true;
+    }
+
+//    输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。如下图所示
+//    public TreeNode head = null;
+//    public TreeNode tail = null;
+//    public TreeNode Convert(TreeNode pRootOfTree) {
+//
+//        TreeNode left = Convert(pRootOfTree.left);
+//
+//        TreeNode right = Convert(pRootOfTree.right);
+//
+//    }
 
 }
