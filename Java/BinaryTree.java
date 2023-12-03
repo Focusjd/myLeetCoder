@@ -234,6 +234,68 @@ public class BinaryTree {
         return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
     }
 
+    public ArrayList<ArrayList<Integer>> FindPath(TreeNode root, int target){
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        ArrayList<Integer> path = new ArrayList<>();
+        FindPathHelper(root, target, res, path);
+        return res;
+    }
+
+//    输入一颗二叉树的根节点root和一个整数expectNumber，找出二叉树中结点值的和为expectNumber的所有路径。
+    public void FindPathHelper(TreeNode node, int sum, ArrayList<ArrayList<Integer>> res, ArrayList<Integer> path){
+        if (node == null) {
+            return;
+        }
+        sum -= node.val;
+        path.add(node.val);
+
+        if (node.left == null && node.right == null && sum == 0){
+            res.add(new ArrayList<>(path));
+        }
+
+        FindPathHelper(node.left, sum, res, path);
+        FindPathHelper(node.right, sum, res, path);
+
+        path.remove(path.size()-1);
+
+    }
+//给定一个二叉树root和一个整数值 sum ，求该树有多少路径的的节点值之和等于 sum 。
+//1.该题路径定义不需要从根节点开始，也不需要在叶子节点结束，但是一定是从父亲节点往下到孩子节点
+//2.总节点数目为n
+//3.保证最后返回的路径个数在整形范围内(即路径个数小于231-1)
+
+    public int FindAnyPath (TreeNode root, int sum) {
+        if (root == null) {
+            return 0;
+        }
+
+        int number = FindAnyPathDFS(root, sum);
+
+        number += FindAnyPath(root.left, sum);
+        number += FindAnyPath(root.right, sum);
+
+
+        return number;
+    }
+
+    public int FindAnyPathDFS(TreeNode node, int sum){
+        if (node == null) {
+            return 0;
+        }
+        sum -= node.val;
+        int result = (sum == 0) ? 1 : 0; //可以继续的关键
+
+        // 继续在左右子树中寻找符合条件的路径
+        result += FindAnyPathDFS(node.left, sum);
+        result += FindAnyPathDFS(node.right, sum);
+
+        return result;
+    }
+
+
 
 //    已知两颗二叉树，将它们合并成一颗二叉树。
 //    合并规则是：都存在的结点，就将结点值加起来，否则空的位置就由另一个树的结点来代替。
@@ -407,6 +469,15 @@ public class BinaryTree {
 
         return left != null ? left : right; // 核心： 如何返回结果
     }
+
+//给定节点数为 n 的二叉树的前序遍历和中序遍历结果，请重建出该二叉树并返回它的头结点。
+//    public TreeNode reConstructBinaryTree (int[] preOrder, int[] vinOrder) {
+//
+//    }
+
+
+
+
 
 
 
