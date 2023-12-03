@@ -39,7 +39,30 @@ public class BinaryTree {
         return list.stream().mapToInt(Integer::intValue).toArray();
 
     }
+//    不分行从上往下打印出二叉树的每个节点，同层节点从左至右打印。例如输入{8,6,10,#,#,2,1}，
+//    如以下图中的示例二叉树，则依次打印8,6,10,2,1(空节点不打印，跳过)，请你将打印的结果存放到一个数组里面，返回。
 
+    public ArrayList<Integer> PrintFromTopToBottom(TreeNode root) {
+        ArrayList<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        TreeNode curr;
+        while (!queue.isEmpty()){
+            curr = queue.poll();
+            res.add(curr.val);
+
+            if (curr.left!=null)
+                queue.offer(curr.left);
+            if (curr.right!=null)
+                queue.offer(curr.right);
+        }
+
+        return res;
+    }
 
     public void inorderTraversalHelper(TreeNode node, ArrayList<Integer> res){
         if (node == null) {
@@ -229,9 +252,10 @@ public class BinaryTree {
     public boolean hasPathSum (TreeNode root, int sum) {
         if (root == null) //终止条件需要学习
             return false;
-        if (root.left == null && root.right == null && sum - root.val ==0)
+        sum -= root.val;
+        if (root.left == null && root.right == null && sum ==0)
             return true;
-        return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
+        return hasPathSum(root.left, sum) || hasPathSum(root.right, sum );
     }
 
     public ArrayList<ArrayList<Integer>> FindPath(TreeNode root, int target){
@@ -470,14 +494,74 @@ public class BinaryTree {
         return left != null ? left : right; // 核心： 如何返回结果
     }
 
+//    给定一棵结点数为n 二叉搜索树，请找出其中的第 k 小的TreeNode结点值。
+//1.返回第k小的节点值即可
+//2.不能查找的情况，如二叉树为空，则返回-1，或者k大于n等等，也返回-1
+//3.保证n个节点的值不一样
+//    Medium Time n Space n
+//    public int KthNode (TreeNode proot, int k) {
+//        if (proot == null || k < 1) {
+//            return -1;
+//        }
+//        ArrayList<Integer> inOrderList = new ArrayList<>();
+//        KthNodeHelper(proot, inOrderList);
+//        if (inOrderList.size()<k)
+//            return -1;
+//        return inOrderList.get(k-1);
+//    }
+    public void KthNodeHelper(TreeNode node, ArrayList<Integer> inOrderList){
+        if (node == null) {
+            return;
+        }
+        KthNodeHelper(node.left, inOrderList);
+        inOrderList.add(node.val);
+        KthNodeHelper(node.right, inOrderList);
+    }
+
+    int counter = 0;
+    public int KthNode (TreeNode proot, int k) {
+        if (proot == null) {
+            return -1;
+        }
+        int left = KthNode(proot.left, k);
+        counter++;
+        if (counter == k){
+            return proot.val;
+        }
+        int right = KthNode(proot.right, k);
+
+        return left != -1 ? left : right;
+    }
+
+
+//    public boolean HasSubtree(TreeNode root1,TreeNode root2) {
+//
+//    }
+
+
+//    输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则返回 true ,否则返回 false 。
+//    假设输入的数组的任意两个数字都互不相同。
+//    public boolean VerifySquenceOfBST(int [] sequence) {
+//
+//
+//    }
+
 //给定节点数为 n 的二叉树的前序遍历和中序遍历结果，请重建出该二叉树并返回它的头结点。
 //    public TreeNode reConstructBinaryTree (int[] preOrder, int[] vinOrder) {
 //
 //    }
 
 
-
-
+//请实现两个函数，分别用来序列化和反序列化二叉树，不对序列化之后的字符串进行约束，但要求能够根据序列化之后的字符串重新构造出一棵与原二叉树相同的树。
+//二叉树的序列化(Serialize)是指：把一棵二叉树按照某种遍历方式的结果以某种格式保存为字符串，从而使得内存中建立起来的二叉树可以持久保存。
+// 序列化可以基于先序、中序、后序、层序的二叉树等遍历方式来进行修改，序列化的结果是一个字符串，序列化时通过 某种符号表示空节点（#）
+//二叉树的反序列化(Deserialize)是指：根据某种遍历顺序得到的序列化字符串结果str，重构二叉树。
+//    String Serialize(TreeNode root) {
+//
+//    }
+//    TreeNode Deserialize(String str) {
+//
+//    }
 
 
 
