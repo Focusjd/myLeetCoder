@@ -1,4 +1,4 @@
-import java.util.List;
+import java.util.*;
 
 public class MyListNode {
 
@@ -70,5 +70,139 @@ public class MyListNode {
         odd.next = evenHead.next;
         return oddHead.next;
     }
+
+
+//    给定一个链表，请判断该链表是否为回文结构。
+    public boolean isPail (ListNode head) {
+        if (head == null) {
+            return true;
+        }
+        ListNode fast = head;
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        while (fast != null){
+            arrayList.add(fast.val);
+            fast = fast.next;
+        }
+
+        for (int i = 0; i < arrayList.size() / 2; i++) {
+            if (!Objects.equals(arrayList.get(i), arrayList.get(arrayList.size() - 1 - i)))
+                return false;
+        }
+        return true;
+    }
+
+//    删除给出链表中的重复元素（链表中元素从小到大有序），使链表中的所有元素都只出现一次
+//    Easy Time n Space n
+//    public ListNode deleteDuplicates (ListNode head) {
+//        if (head == null) {
+//            return null;
+//        }
+//        ListNode dummyNode = new ListNode(-1);
+//        dummyNode.next = head;
+//        HashSet<Integer> set = new HashSet<>();
+//
+//        ListNode prev = dummyNode;
+//        while (head != null){
+//            if (!set.contains(head.val)){
+//                set.add(head.val);
+//                head = head.next;
+//                prev = prev.next;
+//            }else {
+//                head = head.next;
+//                prev.next = head;
+//            }
+//        }
+//        return dummyNode.next;
+//    }
+
+
+//    Time n Space 1
+    public ListNode deleteDuplicates (ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode dummyNode = new ListNode(-1);
+        dummyNode.next = head;
+
+        ListNode prev = dummyNode;
+        ListNode curr = head;
+        ListNode next = head.next;
+
+        while (next != null){
+            if (next.val == curr.val){
+                while (next != null && next.val == curr.val){
+                    next = next.next;
+                }
+                curr.next = next;
+                curr = next;
+            }else {
+                next = next.next;
+                curr = curr.next;
+            }
+        }
+
+        return dummyNode.next;
+    }
+
+//    给出一个升序排序的链表，删除链表中的所有重复出现的元素，只保留原链表中只出现一次的元素。
+
+
+//    判断给定的链表中是否有环。如果有环则返回true，否则返回false。
+    public boolean hasCycle(ListNode head) {
+        if (head == null) {
+            return false;
+        }
+        ListNode slow = head;
+        ListNode fast = head.next;
+
+        while (fast != slow){
+            if (fast == null || fast.next ==null)
+                return false;
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return true;
+    }
+
+
+
+//    给一个长度为n链表，若其中包含环，请找出该链表的环的入口结点，否则，返回null。
+//    Medium Time n Space n
+//    public ListNode EntryNodeOfLoop(ListNode pHead) {
+//        HashSet<ListNode> hashSet = new HashSet<>();
+//        while (pHead != null){
+//            if (!hashSet.contains(pHead)){
+//                hashSet.add(pHead);
+//            }else {
+//                break;
+//            }
+//            pHead = pHead.next;
+//        }
+//        return pHead;
+//    }
+//    Time n Space 1
+    public ListNode EntryNodeOfLoop(ListNode pHead) {
+        ListNode fast = pHead;
+        ListNode slow = pHead;
+
+        while (fast != null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+            if (slow == fast){
+                break;
+            }
+        }
+
+        if (fast == null || fast.next == null)
+            return null;
+        fast = pHead;
+        while (fast != slow){
+            fast = fast.next;
+            slow = slow.next;
+        }
+
+        return slow;
+    }
+
 
 }
