@@ -1,3 +1,5 @@
+import jdk.jshell.Snippet;
+
 import java.util.*;
 
 public class MyListNode {
@@ -180,6 +182,7 @@ public class MyListNode {
 //        }
 //        return pHead;
 //    }
+
 //    Time n Space 1
     public ListNode EntryNodeOfLoop(ListNode pHead) {
         ListNode fast = pHead;
@@ -202,6 +205,36 @@ public class MyListNode {
         }
 
         return slow;
+    }
+
+    public ListNode deleteDuplicates (ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode dummyNode = new ListNode(-1);
+        dummyNode.next = head;
+
+        ListNode prev = dummyNode;
+        ListNode curr = head;
+        ListNode next = head;
+
+        while (curr != null){
+            next = curr.next;
+            if (next != null && curr.val == next.val){
+                while (next != null && next.val == curr.val){
+                    next = next.next;
+                }
+                curr = next;
+                prev.next = null;
+            }else {
+                prev.next = curr;
+                prev = curr;
+                curr = next;
+            }
+            curr = curr.next;
+        }
+
+        return dummyNode.next;
     }
 
 
