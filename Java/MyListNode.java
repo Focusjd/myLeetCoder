@@ -119,28 +119,56 @@ public class MyListNode {
 
 
 //    Time n Space 1
+
+//    public ListNode deleteDuplicates (ListNode head) {
+//        if (head == null) {
+//            return null;
+//        }
+//        ListNode dummyNode = new ListNode(-1);
+//        dummyNode.next = head;
+//
+//        ListNode prev = dummyNode;
+//        ListNode curr = head;
+//        ListNode next = head.next;
+//
+//        while (next != null){
+//            if (next.val == curr.val){
+//                while (next != null && next.val == curr.val){
+//                    next = next.next;
+//                }
+//                curr.next = next;
+//                curr = next;
+//            }else {
+//                next = next.next;
+//                curr = curr.next;
+//            }
+//        }
+//
+//        return dummyNode.next;
+//    }
     public ListNode deleteDuplicates (ListNode head) {
         if (head == null) {
             return null;
         }
         ListNode dummyNode = new ListNode(-1);
         dummyNode.next = head;
-
         ListNode prev = dummyNode;
         ListNode curr = head;
-        ListNode next = head.next;
 
-        while (next != null){
-            if (next.val == curr.val){
-                while (next != null && next.val == curr.val){
-                    next = next.next;
+        while (curr != null && curr.next != null){
+            if (curr.val == curr.next.val){
+                while (curr.next != null && curr.val == curr.next.val){
+                    curr = curr.next;
                 }
-                curr.next = next;
-                curr = next;
+                prev.next = null;
             }else {
-                next = next.next;
-                curr = curr.next;
+                prev.next = curr;
+                prev = curr;
             }
+            curr = curr.next;
+        }
+        if (curr != null && prev.val != curr.val){
+            prev.next = curr;
         }
 
         return dummyNode.next;
@@ -206,6 +234,15 @@ public class MyListNode {
 
         return slow;
     }
+
+
+//    假设链表中每一个节点的值都在 0 - 9 之间，那么链表整体就可以代表一个整数。
+//给定两个这种链表，请生成代表两个整数相加值的结果链表。
+//    public ListNode addInList (ListNode head1, ListNode head2) {
+//
+//    }
+
+
 
 
 
