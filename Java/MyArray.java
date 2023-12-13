@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -44,7 +45,25 @@ public class MyArray {
     }
 
 
+//    在有序数组中找出两个数，使得和为给定的数 S。如果有多对数字的和等于 S，输出两个数的乘积最小的。
+    public ArrayList<Integer> FindNumbersWithSum(int [] array, int sum) {
+        ArrayList<Integer> res = new ArrayList<>();
+        int left = 0;
+        int right = array.length - 1;
+        for (int i = 0; i < array.length; i++) {
+            if (array[left] + array[right] == sum){
+                res.add(array[left]);
+                res.add(array[right]);
+                break;
+            } else if (array[left] + array[right] < sum) {
+                left++;
 
+            }else {
+                right--;
+            }
+        }
+        return res;
+    }
 
 
 
