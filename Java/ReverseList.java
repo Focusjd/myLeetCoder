@@ -12,57 +12,17 @@ class ListNode {
 
 public class ReverseList {
 
+//给定一个单链表的头结点pHead(该头节点是有值的，比如在下图，它的val是1)，长度为n，反转该链表后，返回新链表的表头。
 
-    // public ListNode ReverseList (ListNode head) {
-    //     if (head == null) {
-    //         return null;
-    //     }
-    //     ListNode newTail = new ListNode(head.val);
-    //     while (head.next!=null){
-    //         head=head.next;
-    //         ListNode temp = new ListNode(head.val);
-    //         temp.next = newTail;
-    //         newTail = temp;
-
-    //     }
-    //     return newTail;
-    // }
-    // public ListNode ReverseList (ListNode head) {
-    //     if (head == null) {
-    //         return null;
-    //     }
-    //     ListNode current = head;
-    //     ListNode previous = null;
-    //     ListNode next = null;
-    //     while (current!=null){
-    //         next = current.next;
-    //         current.next = previous;
-    //         previous = current;
-    //         current = next;
-    //     }
-
-
-    //     return previous;
-    // }
-//    public ListNode ReverseList (ListNode head) {
-//        if (head == null) {
-//            return null;
-//        } else if (head.next == null) {
-//            return head;
-//        }
-//        ListNode dummyNode = new ListNode(-1);
-//        dummyNode.next = head;
-//
-//        ListNode pre = dummyNode;
-//        ListNode curr = head;
-//        ListNode next = head.next;
-//        while (next!=null){
-//            curr.next=next.next;
-//            next.next=pre.next;
-//            pre.next= next;
+//    public ListNode reverse(ListNode node){
+//        ListNode curr = node, prev = null, next = null;
+//        while (curr!=null){
 //            next = curr.next;
+//            curr.next = prev;
+//            prev=curr;
+//            curr=next;
 //        }
-//        return dummyNode.next;
+//        return prev;
 //    }
     public ListNode ReverseList (ListNode head) {
         if (head == null) {
