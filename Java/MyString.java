@@ -22,14 +22,38 @@ public class MyString {
 
 //    请实现一个函数，将一个字符串s中的每个空格替换成“%20”。
 //例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。
+//    Easy Time n Space n
+//    public String replaceSpace (String s) {
+//        StringBuilder sb = new StringBuilder();
+//        for (int i = 0; i < s.length(); i++) {
+//            char curr = s.charAt(i);
+//            sb.append(curr == ' ' ? "%20" : curr);
+//        }
+//        return sb.toString();
+//    }
+// Time n Space 1
     public String replaceSpace (String s) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
-            char curr = s.charAt(i);
-            sb.append(curr == ' ' ? "%20" : curr);
+        StringBuilder sb = new StringBuilder(s);
+        int length = sb.length();
+        for (int i = 0; i < length; i++) {
+            if (s.charAt(i) == ' ')
+                sb.append("  ");
+        }
+        int offset = sb.length() -1;
+
+        for (int i = 0; i < length; i++) {
+            char curr = sb.charAt(length - 1 - i);
+            if (curr == ' '){
+                sb.setCharAt(offset--, '0');
+                sb.setCharAt(offset--, '2');
+                sb.setCharAt(offset--, '%');
+            }else {
+                sb.setCharAt(offset--, curr);
+            }
         }
         return sb.toString();
     }
+
 
 
 //翻转单词序列
