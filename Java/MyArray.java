@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
 public class MyArray {
 //    给出一个有序的整数数组 A 和有序的整数数组 B ，请将数组 B 合并到数组 A 中，变成一个有序的升序数组
@@ -102,6 +100,32 @@ public class MyArray {
             left++;
 
         }
+        return res;
+    }
+
+//    给定一个长度为 n 的可能有重复值的数组，找出其中不去重的最小的 k 个数。
+//    例如数组元素是4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4(任意顺序皆可)。
+
+    public ArrayList<Integer> GetLeastNumbers_Solution (int[] input, int k) {
+        ArrayList<Integer> res = new ArrayList<>();
+        if (input == null || k < 1) {
+            return res;
+        }
+        PriorityQueue<Integer> pq = new PriorityQueue<>(k, Comparator.reverseOrder());
+
+        for (int num:
+             input) {
+            if (pq.size() < k){
+                pq.offer(num);
+            }else {
+                if (num < pq.peek()){
+                    pq.poll();
+                    pq.offer(num);
+                }
+            }
+        }
+
+        res.addAll(pq);
         return res;
     }
 
