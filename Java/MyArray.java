@@ -105,7 +105,7 @@ public class MyArray {
 
 //    给定一个长度为 n 的可能有重复值的数组，找出其中不去重的最小的 k 个数。
 //    例如数组元素是4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4(任意顺序皆可)。
-
+// medium Time nlogk Space k
     public ArrayList<Integer> GetLeastNumbers_Solution (int[] input, int k) {
         ArrayList<Integer> res = new ArrayList<>();
         if (input == null || k < 1) {
@@ -127,6 +127,48 @@ public class MyArray {
 
         res.addAll(pq);
         return res;
+    }
+
+//如何得到一个数据流中的中位数？如果从数据流中读出奇数个数值，那么中位数就是所有数值排序之后位于中间的数值
+// 如果从数据流中读出偶数个数值，那么中位数就是所有数值排序之后中间两个数的平均值。
+// 我们使用Insert()方法读取数据流，使用GetMedian()方法获取当前读取数据的中位数。
+// Medium Insert Time nlogn Space n bug exist!!!!!
+    PriorityQueue<Integer> minQ = new PriorityQueue<>();
+    PriorityQueue<Integer> maxQ = new PriorityQueue<>(Comparator.reverseOrder());
+    public void Insert(Integer num) {
+        if (minQ.isEmpty()){
+            minQ.offer(num);
+            return;
+        }
+        if (maxQ.isEmpty()){
+            if (num<=minQ.peek()){
+                maxQ.offer(num);
+            }else {
+                maxQ.offer(minQ.poll());
+                minQ.offer(num);
+            }
+            return;
+        }
+
+        if (num>maxQ.peek()){
+            if (minQ.size() - maxQ.size() >= 1){
+                maxQ.offer(minQ.poll());
+            }
+            minQ.offer(num);
+        }else {
+            if (maxQ.size() - minQ.size() >= 0){
+                minQ.offer(maxQ.poll());
+            }
+            maxQ.offer(num);
+        }
+    }
+
+
+    public Double GetMedian() {
+        if ((minQ.size() + maxQ.size()) % 2 == 1){
+            return (double) minQ.peek();
+        }
+        return (minQ.peek()+maxQ.peek())/2.0 ;
     }
 
 
