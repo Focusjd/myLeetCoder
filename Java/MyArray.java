@@ -47,22 +47,21 @@ public class MyArray {
     public ArrayList<Integer> FindNumbersWithSum(int [] array, int sum) {
         ArrayList<Integer> res = new ArrayList<>();
         int left = 0;
-        int right = array.length - 1;
-        for (int i = 0; i < array.length; i++) {
+        int right = array.length-1;
+        while (left<right){
             if (array[left] + array[right] == sum){
                 res.add(array[left]);
                 res.add(array[right]);
                 break;
-            } else if (array[left] + array[right] < sum) {
-                left++;
-
+            } else if (array[left] + array[right] > sum) {
+                right --;
             }else {
-                right--;
+                left ++;
             }
         }
+
         return res;
     }
-
 
 //    输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵：
 //[[1,2,3,4],
@@ -196,6 +195,7 @@ public class MyArray {
         }
         return res;
     }
+
 
 
 

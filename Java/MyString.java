@@ -163,6 +163,44 @@ public class MyString {
         return queue.isEmpty() ? '#' : queue.peek();
     }
 
+//汇编语言中有一种移位指令叫做循环左移（ROL），现在有个简单的任务，就是用字符串模拟这个指令的运算结果。
+// 对于一个给定的字符序列  S ，请你把其循环左移 K 位后的序列输出。
+// 例如，字符序列 S = ”abcXYZdef” , 要求输出循环左移 3 位后的结果，即 “XYZdefabc”
+//    Medium Time n Space 1
+//    public String LeftRotateString (String str, int n) {
+//        if (str.isEmpty() || n == str.length())
+//            return str;
+//        int rotateNum = n % str.length();
+//        StringBuilder sb = new StringBuilder();
+//        for (int i = rotateNum; i < str.length(); i++) {
+//            sb.append(str.charAt(i));
+//        }
+//        for (int i = 0; i < rotateNum; i++) {
+//            sb.append(str.charAt(i));
+//        }
+//        return sb.toString();
+//    }
+    public String LeftRotateString (String str, int n) {
+        if (str.isEmpty() || n == str.length())
+            return str;
+        char[] chars = str.toCharArray();
+        int offset = n % str.length();
+        reverseChars(chars, 0, chars.length -1);
+        reverseChars(chars, 0, chars.length -1 - offset);
+        reverseChars(chars, chars.length - offset, chars.length -1);
+        return String.valueOf(chars);
+    }
+
+    public void reverseChars(char[] chars, int start, int end){
+        while (start < end){
+            char temp = chars[start];
+            chars[start] = chars[end];
+            chars[end] = temp;
+            start ++;
+            end --;
+        }
+    }
+
 
 
 
