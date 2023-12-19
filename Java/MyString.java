@@ -201,6 +201,30 @@ public class MyString {
         }
     }
 
+//    将一个字符串转换成一个整数，要求不能使用字符串转换整数的库函数。 数值为 0 或者字符串不是一个合法的数值则返回 0
+public int StrToInt(String str) {
+    int res = 0;
+    int param = 1;
+    int startIndex = 0;
+
+    if (str == null || str.isEmpty()) {
+        return 0; // or throw an exception for invalid input
+    }
+    if (str.charAt(0) == '-') {
+        param = -1;
+        startIndex = 1;
+    } else if (str.charAt(0) == '+') {
+        startIndex = 1;
+    }
+    for (int i = startIndex; i < str.length(); i++) {
+        int digit = str.charAt(i) - '0';
+        if (digit < 0 || digit > 9) {
+            return 0;
+        }
+        res = res * 10 + digit;
+    }
+    return res * param;
+}
 
 
 
@@ -208,6 +232,7 @@ public class MyString {
     public static void main(String[] args) {
 //        System.out.println(ReverseSentence("This is a sample"));
         System.out.println((int)'z');
+        System.out.println((int)'9');
     }
 
 }
