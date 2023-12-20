@@ -196,6 +196,30 @@ public class MyArray {
         return res;
     }
 
+//    给定一个长度为 n 的非降序数组和一个非负数整数 k ，要求统计 k 在数组中出现的次数
+
+    public int GetNumberOfK (int[] nums, int k) {
+        int start = findInArray(nums, k - 0.5);
+        int end = findInArray(nums, k + 0.5);
+        return end - start;
+    }
+
+    public int findInArray(int[] nums, double target){
+        int left = 0;
+        int right = nums.length - 1;
+        while (left <= right){
+            int mid = (left + right) / 2;
+            if (nums[mid] < target){
+                left = mid + 1;
+            }else if (nums[mid] > target){
+                right = mid - 1;
+            }
+        }
+        return left;
+    }
+
+
+
 
 
 
