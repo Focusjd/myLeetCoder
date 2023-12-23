@@ -218,7 +218,38 @@ public class MyArray {
         return left;
     }
 
+//有一个整数数组，请你根据快速排序的思路，找出数组中第 k 大的数。
+//给定一个整数数组 a ,同时给定它的大小n和要找的 k ，请返回第 k 大的数(包括重复的元素，不用去重)，保证答案存在。
+    public int findKth (int[] a, int n, int K) {
+        quickSort(a, 0, a.length -1);
+        return a[n-K];
+    }
 
+    public void quickSort(int[] arr, int left, int right){
+        if (right <= left)
+            return;
+
+        int p = partition(arr, left, right);
+        quickSort(arr, left, p - 1);
+        quickSort(arr, p + 1, right);
+    }
+
+    public int partition(int[] arr, int left, int right){
+        int mid = (left + right) / 2;
+        swapInArray(arr, mid, left);
+        int last = left;
+        for (int i = left + 1; i <= right; i++) {
+            if (arr[i] < arr[left])
+                swapInArray(arr, ++last, i);
+        }
+        swapInArray(arr, last, left);
+        return last;
+    }
+    public void swapInArray(int[] arr, int a, int b){
+        int temp = arr[a];
+        arr[a] = arr[b];
+        arr[b] = temp;
+    }
 
 
 
