@@ -220,11 +220,11 @@ public class MyArray {
 
 //有一个整数数组，请你根据快速排序的思路，找出数组中第 k 大的数。
 //给定一个整数数组 a ,同时给定它的大小n和要找的 k ，请返回第 k 大的数(包括重复的元素，不用去重)，保证答案存在。
+//    Quick Sort
 //    public int findKth (int[] a, int n, int K) {
 //        quickSort(a, 0, a.length -1);
 //        return a[n-K];
 //    }
-
     public void quickSort(int[] arr, int left, int right){
         if (right <= left)
             return;
@@ -270,48 +270,55 @@ public class MyArray {
     }
 
 
-
+//    Merge Sort
     public int findKth (int[] a, int n, int K) {
         mergeSort(a);
         return a[n-K];
     }
-    public void merge(int[] arr, int[] aux, int left, int mid, int right){
-        aux = Arrays.copyOfRange(arr, left, right + 1);
+//    public void mergeSort(int[] arr){
+//        int[] aux = new int[arr.length];
+//        mergeSort(arr, aux, 0, arr.length -1);
+//    }
 
+    public void mergeSort(int[] arr, int[] aux, int left, int right){
+        if (left >= right) return;
+        int mid = left + (right - left) / 2;
+        mergeSort(arr, aux, left, mid);
+        mergeSort(arr, aux, mid + 1, right);
+        merge(arr, aux, left, mid, right);
+    }
+    public void mergeSort(int[] arr){
+        int n = arr.length;
+        int[] aux = new int[n];
+
+        for (int len = 1; len < n; len*=2) {
+            for (int lo = 0; lo < n - len; lo += len + len) {
+                int mid = lo + len - 1;
+                int hi = Math.min(lo + len + len - 1, n - 1);
+                merge(arr, aux, lo, mid, hi);
+            }
+        }
+    }
+
+    public void merge(int[] arr, int[] aux, int left, int mid, int right){
         for (int i = left; i <= right; i++) {
             aux[i] = arr[i];
         }
-        System.arraycopy(arr, left, aux, left, right + 1 - left);
-
 
         int i = left;
         int j = mid + 1;
         for (int k = left; k <= right; k++) {
-            if (i > mid)        arr[k] = aux[j++];
-            else if (j > right) arr[k] = aux[i++];
-            else if (aux[i] < aux[j]) arr[k] = aux[i++];
-            else                arr[k] = aux[j++];
+            if (i > mid)
+                arr[k] = aux[j++];
+            else if (j > right) {
+                arr[k] = aux[i++];
+            } else if (aux[i] > aux[j]) {
+                arr[k] = aux[j++];
+            }else {
+                arr[k] = aux[i++];
+            }
         }
     }
-
-    public void sort(int[] arr, int[] aux, int left, int right){
-        if (right <= left) return;
-        int mid = (left + right) / 2;
-        sort(arr, aux, left, mid);
-        sort(arr, aux, mid + 1, right);
-        merge(arr, aux, left, mid, right);
-    }
-
-    public void mergeSort(int[] arr){
-        int[] aux = new int[arr.length];
-        sort(arr, aux, 0, arr.length -1);
-    }
-
-
-
-
-
-
 
 
 
