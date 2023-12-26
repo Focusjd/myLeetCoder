@@ -234,16 +234,34 @@ public class MyArray {
         quickSort(arr, p + 1, right);
     }
 
+//    public int partition(int[] arr, int left, int right){
+//        int mid = (left + right) / 2;
+//        swapInArray(arr, mid, left);
+//        int last = left;
+//        for (int i = left + 1; i <= right; i++) {
+//            if (arr[i] < arr[left])
+//                swapInArray(arr, ++last, i);
+//        }
+//        swapInArray(arr, last, left);
+//        return last;
+//    }
     public int partition(int[] arr, int left, int right){
-        int mid = (left + right) / 2;
-        swapInArray(arr, mid, left);
-        int last = left;
-        for (int i = left + 1; i <= right; i++) {
-            if (arr[i] < arr[left])
-                swapInArray(arr, ++last, i);
+        int i = left, j = right + 1;
+        while (true){
+            while (arr[++i] < arr[left]){
+                if (i == right)
+                    break;
+            }
+            while (arr[--j] > arr[left]){
+                if (j == left)
+                    break;
+            }
+            if (i >= j)
+                break;
+            swapInArray(arr, i, j);
         }
-        swapInArray(arr, last, left);
-        return last;
+        swapInArray(arr, left, j);
+        return j;
     }
     public void swapInArray(int[] arr, int a, int b){
         int temp = arr[a];
@@ -288,6 +306,15 @@ public class MyArray {
         int[] aux = new int[arr.length];
         sort(arr, aux, 0, arr.length -1);
     }
+
+
+
+
+
+
+
+
+
 
 
 }
