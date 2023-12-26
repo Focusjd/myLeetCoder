@@ -244,11 +244,57 @@ public class MyListNode {
 
 
 //给定一个节点数为n的无序单链表，对其按升序排序。
-//    public ListNode sortInList (ListNode head) {
-//
-//
-//
-//    }
+    public ListNode sortInList (ListNode head) {
+        return mergeSort(head);
+    }
+
+    public ListNode mergeSort(ListNode head){
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        ListNode mid = getMiddle(head);
+        ListNode midNext = mid.next;
+        mid.next = null;
+
+        ListNode left = mergeSort(head);
+        ListNode right = mergeSort(midNext);
+        return merge(left, right);
+    }
+
+    private ListNode merge(ListNode left, ListNode right) {
+        ListNode dummyNode = new ListNode(-1);
+        ListNode curr = dummyNode;
+        while (left != null && right != null){
+            if (left.val < right.val){
+                curr.next = left;
+                left = left.next;
+            }else {
+                curr.next = right;
+                right = right.next;
+            }
+            curr = curr.next;
+        }
+        if (left != null){
+            curr.next = left;
+        } else if (right != null) {
+            curr.next = right;
+        }
+        return dummyNode.next;
+    }
+
+    private ListNode getMiddle(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
 
 
 }

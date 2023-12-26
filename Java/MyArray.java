@@ -225,14 +225,14 @@ public class MyArray {
 //        quickSort(a, 0, a.length -1);
 //        return a[n-K];
 //    }
-    public void quickSort(int[] arr, int left, int right){
-        if (right <= left)
-            return;
-
-        int p = partition(arr, left, right);
-        quickSort(arr, left, p - 1);
-        quickSort(arr, p + 1, right);
-    }
+//    public void quickSort(int[] arr, int left, int right){
+//        if (right <= left)
+//            return;
+//
+//        int p = partition(arr, left, right);
+//        quickSort(arr, left, p - 1);
+//        quickSort(arr, p + 1, right);
+//    }
 
 //    public int partition(int[] arr, int left, int right){
 //        int mid = (left + right) / 2;
@@ -245,29 +245,29 @@ public class MyArray {
 //        swapInArray(arr, last, left);
 //        return last;
 //    }
-    public int partition(int[] arr, int left, int right){
-        int i = left, j = right + 1;
-        while (true){
-            while (arr[++i] < arr[left]){
-                if (i == right)
-                    break;
-            }
-            while (arr[--j] > arr[left]){
-                if (j == left)
-                    break;
-            }
-            if (i >= j)
-                break;
-            swapInArray(arr, i, j);
-        }
-        swapInArray(arr, left, j);
-        return j;
-    }
-    public void swapInArray(int[] arr, int a, int b){
-        int temp = arr[a];
-        arr[a] = arr[b];
-        arr[b] = temp;
-    }
+//    public int partition(int[] arr, int left, int right){
+//        int i = left, j = right + 1;
+//        while (true){
+//            while (arr[++i] < arr[left]){
+//                if (i == right)
+//                    break;
+//            }
+//            while (arr[--j] > arr[left]){
+//                if (j == left)
+//                    break;
+//            }
+//            if (i >= j)
+//                break;
+//            swapInArray(arr, i, j);
+//        }
+//        swapInArray(arr, left, j);
+//        return j;
+//    }
+//    public void swapInArray(int[] arr, int a, int b){
+//        int temp = arr[a];
+//        arr[a] = arr[b];
+//        arr[b] = temp;
+//    }
 
 
 //    Merge Sort
@@ -275,10 +275,10 @@ public class MyArray {
         mergeSort(a);
         return a[n-K];
     }
-//    public void mergeSort(int[] arr){
-//        int[] aux = new int[arr.length];
-//        mergeSort(arr, aux, 0, arr.length -1);
-//    }
+    public void mergeSort(int[] arr){
+        int[] aux = new int[arr.length];
+        mergeSort(arr, aux, 0, arr.length -1);
+    }
 
     public void mergeSort(int[] arr, int[] aux, int left, int right){
         if (left >= right) return;
@@ -287,19 +287,19 @@ public class MyArray {
         mergeSort(arr, aux, mid + 1, right);
         merge(arr, aux, left, mid, right);
     }
-    public void mergeSort(int[] arr){
-        int n = arr.length;
-        int[] aux = new int[n];
-
-        for (int len = 1; len < n; len*=2) {
-            for (int lo = 0; lo < n - len; lo += len + len) {
-                int mid = lo + len - 1;
-                int hi = Math.min(lo + len + len - 1, n - 1);
-                merge(arr, aux, lo, mid, hi);
-            }
-        }
-    }
-
+//    public void mergeSort(int[] arr){
+//        int n = arr.length;
+//        int[] aux = new int[n];
+//
+//        for (int len = 1; len < n; len*=2) {
+//            for (int lo = 0; lo < n - len; lo += len + len) {
+//                int mid = lo + len - 1;
+//                int hi = Math.min(lo + len + len - 1, n - 1);
+//                merge(arr, aux, lo, mid, hi);
+//            }
+//        }
+//    }
+//
     public void merge(int[] arr, int[] aux, int left, int mid, int right){
         for (int i = left; i <= right; i++) {
             aux[i] = arr[i];
@@ -319,9 +319,6 @@ public class MyArray {
             }
         }
     }
-
-
-
 
 
 }
