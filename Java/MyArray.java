@@ -1,3 +1,4 @@
+import java.security.Key;
 import java.util.*;
 
 public class MyArray {
@@ -220,6 +221,65 @@ public class MyArray {
 
 //有一个整数数组，请你根据快速排序的思路，找出数组中第 k 大的数。
 //给定一个整数数组 a ,同时给定它的大小n和要找的 k ，请返回第 k 大的数(包括重复的元素，不用去重)，保证答案存在。
+//    Quick Select
+    public int findKth(int[] a, int n, int K) {
+        int index = quickSelect(a, 0, a.length - 1, K);
+        return a[index];
+    }
+    public int quickSelect(int[] arr, int left, int right, int K){
+        int pivot = partition(arr, left, right);
+        if (pivot > arr.length - K){
+            return quickSelect(arr, left, pivot - 1, K);
+        } else if (pivot < arr.length - K) {
+            return quickSelect(arr, pivot + 1, right, K);
+        }
+        return pivot;
+    }
+
+    private int partition(int[] arr, int left, int right) {
+        int last = left;
+        for (int i = left; i <= right; i++) {
+            if (arr[i] < arr[left])
+                swap(arr, i, ++last);
+        }
+        swap(arr, left, last);
+        return last;
+    }
+
+
+    //public int findKth(int[] a, int n, int K) {
+//    int index = partition(a, 0, n - 1, K);
+//    return a[index];
+//}
+//    private int partition(int[] arr, int left, int right, int K) {
+//        int i = left, j = right + 1;
+//        while (true){
+//            while (arr[++i] < arr[left]){
+//                if (i == right) break;  // 注意一定是等号 == 不是 >
+//            }
+//            while (arr[--j] > arr[left]){
+//                if (j == left) break;
+//            }
+//            if (i >= j)
+//                break;
+//            swap(arr, i, j);
+//        }
+//        swap(arr, left, j);
+//
+//        if (j > arr.length - K){
+//            return partition(arr, left, j - 1, K);
+//        } else if (j < arr.length - K) {
+//            return partition(arr, j + 1, right, K);
+//        }
+//        return j;
+//    }
+//
+    private void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
 //    Quick Sort
 //    public int findKth (int[] a, int n, int K) {
 //        quickSort(a, 0, a.length -1);
@@ -271,10 +331,10 @@ public class MyArray {
 
 
 //    Merge Sort
-    public int findKth (int[] a, int n, int K) {
-        mergeSort(a);
-        return a[n-K];
-    }
+//    public int findKth (int[] a, int n, int K) {
+//        mergeSort(a);
+//        return a[n-K];
+//    }
     public void mergeSort(int[] arr){
         int[] aux = new int[arr.length];
         mergeSort(arr, aux, 0, arr.length -1);
@@ -304,7 +364,6 @@ public class MyArray {
         for (int i = left; i <= right; i++) {
             aux[i] = arr[i];
         }
-
         int i = left;
         int j = mid + 1;
         for (int k = left; k <= right; k++) {
@@ -319,6 +378,9 @@ public class MyArray {
             }
         }
     }
+
+
+
 
 
 }
