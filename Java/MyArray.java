@@ -135,41 +135,43 @@ public class MyArray {
 // Medium Insert Time nlogn Space n bug exist!!!!!
     PriorityQueue<Integer> minQ = new PriorityQueue<>();
     PriorityQueue<Integer> maxQ = new PriorityQueue<>(Comparator.reverseOrder());
+
+    public boolean isOdd(){
+        return (maxQ.size()+minQ.size()) % 2 == 1;
+    }
+
+    public boolean isBalanced(){
+        return minQ.size() - maxQ.size() >= 0 && minQ.size() - maxQ.size() <= 1;
+    }
+    public void balance(){
+        if (!(minQ.size() - maxQ.size() >= 0)){
+            minQ.offer(maxQ.poll());
+            return;
+        }
+        if (!(minQ.size() - maxQ.size() <= 1)){
+            maxQ.offer(minQ.poll());
+            return;
+        }
+    }
     public void Insert(Integer num) {
         if (minQ.isEmpty()){
             minQ.offer(num);
             return;
         }
-        if (maxQ.isEmpty()){
-            if (num<=minQ.peek()){
-                maxQ.offer(num);
-            }else {
-                maxQ.offer(minQ.poll());
-                minQ.offer(num);
-            }
-            return;
-        }
-
-        if (num>maxQ.peek()){
-            if (minQ.size() - maxQ.size() >= 1){
-                maxQ.offer(minQ.poll());
-            }
+        if (num > minQ.peek()){
             minQ.offer(num);
         }else {
-            if (maxQ.size() - minQ.size() >= 0){
-                minQ.offer(maxQ.poll());
-            }
             maxQ.offer(num);
         }
+        if (!isBalanced())
+            balance();
     }
 
     public Double GetMedian() {
-        if ((minQ.size() + maxQ.size()) % 2 == 1){
+        if (isOdd())
             return (double) minQ.peek();
-        }
-        return (minQ.peek()+maxQ.peek())/2.0 ;
+        return (minQ.peek() + maxQ.peek()) / 2.0;
     }
-
 
 //给定一个长度为 n 的数组 num 和滑动窗口的大小 size ，找出所有滑动窗口里数值的最大值。
 //例如，如果输入数组{2,3,4,2,6,2,5,1}及滑动窗口的大小3，那么一共存在6个滑动窗口，他们的最大值分别为{4,4,6,6,6,5}；
@@ -228,9 +230,10 @@ public class MyArray {
     }
     public int quickSelect(int[] arr, int left, int right, int K){
         int pivot = partition(arr, left, right);
-        if (pivot > arr.length - K){
+        int Kth = arr.length - K;
+        if (pivot > Kth){
             return quickSelect(arr, left, pivot - 1, K);
-        } else if (pivot < arr.length - K) {
+        } else if (pivot < Kth) {
             return quickSelect(arr, pivot + 1, right, K);
         }
         return pivot;
