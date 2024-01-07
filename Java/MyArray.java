@@ -102,6 +102,48 @@ public class MyArray {
         }
         return res;
     }
+    public ArrayList<Integer> spiralOrder (int[][] matrix) {
+        ArrayList<Integer> res = new ArrayList<>();
+        if (matrix == null || matrix.length == 0) {
+            return res;
+        }
+        int top = 0;
+        int bottom = matrix.length - 1;
+        int left = 0;
+        int right = matrix[0].length - 1;
+
+        while (true){
+            for (int i = left; i <= right; i++) {
+                res.add(matrix[top][i]);
+            }
+            top++;
+            if (top > bottom)
+                break;
+
+            for (int i = top; i <= bottom; i++) {
+                res.add(matrix[i][right]);
+            }
+            right--;
+            if (right < left)
+                break;
+
+            for (int i = right; i >= left; i--) {
+                res.add(matrix[bottom][i]);
+            }
+            bottom--;
+            if (bottom < top)
+                break;
+
+            for (int i = bottom; i >= top; i--) {
+                res.add(matrix[i][left]);
+            }
+            left++;
+            if (left > right)
+                break;
+        }
+
+        return res;
+    }
 
 //    给定一个长度为 n 的可能有重复值的数组，找出其中不去重的最小的 k 个数。
 //    例如数组元素是4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4(任意顺序皆可)。
@@ -381,7 +423,6 @@ public class MyArray {
             }
         }
     }
-
 
 
 
