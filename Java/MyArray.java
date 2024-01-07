@@ -479,8 +479,24 @@ public class MyArray {
 //输入一个长度为 n 整数数组，数组里面可能含有相同的元素，实现一个函数来调整该数组中数字的顺序，
 // 使得所有的奇数位于数组的前面部分，所有的偶数位于数组的后面部分，对奇数和奇数，偶数和偶数之间的相对位置不做要求
     public int[] reOrderArrayTwo (int[] array) {
-        int[] res = new int[array.length];
-        return res;
+        if (array.length == 0) {
+            return array;
+        }
+        int left = 0;
+        int right = array.length - 1;
+        while (left < right) {
+            while (left < right && isOdd(array[left]))
+                left++;
+            while (left < right && !isOdd(array[right]))
+                right--;
+
+            swap(array, left, right);
+        }
+
+        return array;
+    }
+    public boolean isOdd(int num){
+        return num % 2 == 1;
     }
 
 
