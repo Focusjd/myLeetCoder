@@ -425,12 +425,61 @@ public class MyArray {
     }
 
 //输入数字 n，按顺序打印出从 1 到最大的 n 位十进制数。比如输入 3，则打印出 1、2、3 一直到最大的 3 位数 999。
+//    Easy Time n
     public int[] printNumbers (int n) {
         int upper = (int) Math.pow(10, n) -1;
         int[] res = new int[upper];
         for (int i = 1; i <= upper; i++) {
             res[i-1] = i;
         }
+        return res;
+    }
+
+//现在有2副扑克牌，从扑克牌中随机五张扑克牌，我们需要来判断一下是不是顺子。
+//有如下规则：
+//1. A为1，J为11，Q为12，K为13，A不能视为14
+//2. 大、小王为 0，0可以看作任意牌
+//3. 如果给出的五张牌能组成顺子（即这五张牌是连续的）就输出true，否则就输出false。
+//4.数据保证每组5个数字，每组最多含有4个零，数组的数取值为 [0, 13]
+//    Easy Time n Space n
+    public boolean IsContinuous (int[] numbers) {
+        int zeroNum = 0;
+        int maxNum = -1;
+        int minNum = 14;
+        HashSet<Integer> hashSet = new HashSet<>();
+        for (int num :
+                numbers) {
+            if (num == 0){
+                zeroNum ++;
+                continue;
+            }
+            if (hashSet.contains(num)){
+                return false;
+            }else {
+                hashSet.add(num);
+            }
+            if (num < minNum)
+                minNum = num;
+            if (num > maxNum)
+                maxNum = num;
+        }
+        return maxNum - minNum - 1 - zeroNum - (3 - zeroNum) <= 0;
+    }
+
+//    给定一个数组 A[0,1,...,n-1] ,请构建一个数组 B[0,1,...,n-1] ,
+//    其中 B 的元素 B[i]=A[0]*A[1]*...*A[i-1]*A[i+1]*...*A[n-1]（除 A[i] 以外的全部元素的的乘积）。
+//    程序中不能使用除法。（注意：规定 B[0] = A[1] * A[2] * ... * A[n-1]，B[n-1] = A[0] * A[1] * ... * A[n-2]）
+//对于 A 长度为 1 的情况，B 无意义，故而无法构建，用例中不包括这种情况。
+    public int[] multiply (int[] A) {
+        int[] res = new int[A.length];
+        return res;
+    }
+
+
+//输入一个长度为 n 整数数组，数组里面可能含有相同的元素，实现一个函数来调整该数组中数字的顺序，
+// 使得所有的奇数位于数组的前面部分，所有的偶数位于数组的后面部分，对奇数和奇数，偶数和偶数之间的相对位置不做要求
+    public int[] reOrderArrayTwo (int[] array) {
+        int[] res = new int[array.length];
         return res;
     }
 
