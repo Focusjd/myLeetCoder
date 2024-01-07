@@ -470,11 +470,33 @@ public class MyArray {
 //    其中 B 的元素 B[i]=A[0]*A[1]*...*A[i-1]*A[i+1]*...*A[n-1]（除 A[i] 以外的全部元素的的乘积）。
 //    程序中不能使用除法。（注意：规定 B[0] = A[1] * A[2] * ... * A[n-1]，B[n-1] = A[0] * A[1] * ... * A[n-2]）
 //对于 A 长度为 1 的情况，B 无意义，故而无法构建，用例中不包括这种情况。
+//    EASY Time n Space 1
     public int[] multiply (int[] A) {
         int[] res = new int[A.length];
+        res[0] = 1;
+        for (int i = 1; i < A.length; i++) {
+            res[i] = res[i - 1] * A[i - 1];
+        }
+        int temp = 1;
+        for (int i = A.length - 1; i >= 0; i--) {
+            res[i] *= temp;
+            temp *= A[i];
+        }
         return res;
     }
-
+//    Time n^2 Space 1
+    // public int[] multiply (int[] A) {
+    //     int[] res = new int[A.length];
+    //     for (int i = 0; i < A.length; i++) {
+    //         res[i] = 1;
+    //         for (int j = 0; j < A.length; j++) {
+    //             if (i == j)
+    //                 continue;
+    //             res[i]*=A[j];
+    //         }
+    //     }
+    //     return res;
+    // }
 
 //输入一个长度为 n 整数数组，数组里面可能含有相同的元素，实现一个函数来调整该数组中数字的顺序，
 // 使得所有的奇数位于数组的前面部分，所有的偶数位于数组的后面部分，对奇数和奇数，偶数和偶数之间的相对位置不做要求
